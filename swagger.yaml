@@ -1,0 +1,61 @@
+swagger: '2.0'
+info:
+  title: Quantisk API
+  description: Дикаприо, узнай, что пишут в ЖЖ про твои шансы получить оскар.
+  version: "0.1"
+host: api.quantisk.ru
+schemes:
+  - http
+basePath: /v1
+produces:
+  - application/json
+paths:
+  /persons:
+    get:
+      summary: Личности, для которых производится поиск ключевых слов.
+      description: |
+        Возвращает список личностей.
+      responses:
+        200:
+          description: Список личностей.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Person'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      summary: Добавление новой личности.
+      description: |
+        Добавляет в список новую личность.
+      parameters: 
+        - name: person
+          in: body
+          description: Объект личности для добавления.
+          required: true
+          schema: 
+            $ref: '#/definitions/Person'
+      responses:
+        200:
+          description: Объект добавленной личности.
+          schema: 
+            $ref: '#/definitions/Person'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Person:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+  Error:
+      type: object
+      properties:
+        message:
+          type: string
